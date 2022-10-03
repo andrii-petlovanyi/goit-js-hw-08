@@ -11,7 +11,7 @@ const dataForm = {
   message: '',
 };
 
-refs.form.addEventListener('input', throttle(getCurrentData, 500));
+refs.form.addEventListener('input', throttle(setCurrentData, 500));
 refs.form.addEventListener('submit', onFormSubmit);
 
 const localData = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -20,7 +20,7 @@ if (localData) {
   refs.message.value = localData.message;
 }
 
-function getCurrentData(event) {
+function setCurrentData(event) {
   if (event.target === refs.email) {
     dataForm.email = event.target.value;
   }
@@ -40,7 +40,6 @@ function onFormSubmit(event) {
 
   if (email.length && message.length) {
     console.table(localData);
-    // console.log(localData);
     localStorage.removeItem(STORAGE_KEY);
     refs.form.reset();
   } else {

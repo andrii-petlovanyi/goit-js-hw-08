@@ -11,9 +11,7 @@ if (currentTime) {
 
 playerVimeo.on('timeupdate', throttle(setCurrentTimeInStorage, 1000));
 
-function setCurrentTimeInStorage() {
-  playerVimeo.getCurrentTime().then(function (seconds) {
-    localStorage.setItem('videoplayer-current-time', seconds);
-    console.log(seconds.toFixed(1));
-  });
+function setCurrentTimeInStorage(data) {
+  localStorage.setItem('videoplayer-current-time', data.seconds);
+  console.log(data.seconds.toFixed(1));
 }
