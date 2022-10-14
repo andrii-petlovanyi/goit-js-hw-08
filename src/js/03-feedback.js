@@ -1,35 +1,26 @@
 import throttle from 'lodash.throttle';
 // ===
 const STORAGE_KEY = 'feedback-form-state';
-const refs = {
-  form: document.querySelector('.feedback-form'),
-  email: document.querySelector('.feedback-form input'),
-  message: document.querySelector('.feedback-form textarea'),
-};
-const dataForm = {
-  email: '',
-  message: '',
-};
+const formRefs = document.querySelector('.feedback-form');
 
-refs.form.addEventListener('input', throttle(setCurrentData, 500));
-refs.form.addEventListener('submit', onFormSubmit);
+formRefs.addEventListener('input', throttle(setCurrentData, 500));
+formRefs.addEventListener('submit', onFormSubmit);
 
-const localData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-if (localData) {
-  refs.email.value = localData.email;
-  refs.message.value = localData.message;
+const localData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+if (Object.keys(localData).length) {
+  for (const el of formRefs.elements) {
+    el.value = localData[el.name];
+  }
 }
 
 function setCurrentData(event) {
-  if (event.target === refs.email) {
-    dataForm.email = event.target.value;
+  for (const elem of formRefs.elements) {
+    if (event.target === elem && event.target.value.length) {
+      localData[elem.name] = event.target.value;
+    }
   }
 
-  if (event.target === refs.message) {
-    dataForm.message = event.target.value;
-  }
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(dataForm));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(localData));
 }
 
 function onFormSubmit(event) {
@@ -41,7 +32,7 @@ function onFormSubmit(event) {
   if (email.length && message.length) {
     console.table(localData);
     localStorage.removeItem(STORAGE_KEY);
-    refs.form.reset();
+    formRefs.reset();
   } else {
     alert('Заповніть, будь ласка, всі поля форми!');
   }
