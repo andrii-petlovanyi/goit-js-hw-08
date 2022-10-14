@@ -14,8 +14,8 @@ if (Object.keys(localData).length) {
 
 function setCurrentData(event) {
   for (const elem of formRefs.elements) {
-    if (event.target === elem && event.target.value.length) {
-      localData[elem.name] = event.target.value;
+    if (event.target === elem) {
+      localData[elem.name] = event.target.value.trim();
     }
   }
 
