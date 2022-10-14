@@ -1,5 +1,4 @@
 import throttle from 'lodash.throttle';
-// ===
 const STORAGE_KEY = 'feedback-form-state';
 const formRefs = document.querySelector('.feedback-form');
 
@@ -26,14 +25,13 @@ function setCurrentData(event) {
 function onFormSubmit(event) {
   event.preventDefault();
 
-  const email = event.currentTarget.elements.email.value;
-  const message = event.currentTarget.elements.message.value;
-
-  if (email.length && message.length) {
-    console.table(localData);
-    localStorage.removeItem(STORAGE_KEY);
-    formRefs.reset();
-  } else {
-    alert('Заповніть, будь ласка, всі поля форми!');
+  for (const elem of event.target.elements) {
+    if (!elem.value && elem.tagName !== 'BUTTON') {
+      return alert('Заповніть, будь ласка, всі поля форми!');
+    }
   }
+
+  console.table(localData);
+  localStorage.removeItem(STORAGE_KEY);
+  formRefs.reset();
 }
