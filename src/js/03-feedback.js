@@ -14,9 +14,7 @@ if (Object.keys(localData).length) {
 
 function setCurrentData(event) {
   for (const elem of formRefs.elements) {
-    if (event.target === elem) {
-      localData[elem.name] = event.target.value.trim();
-    }
+    if (event.target === elem) localData[elem.name] = event.target.value.trim();
   }
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(localData));
@@ -26,9 +24,7 @@ function onFormSubmit(event) {
   event.preventDefault();
 
   for (const elem of event.target.elements) {
-    if (!elem.value) {
-      return alert('Заповніть, будь ласка, всі поля форми!');
-    }
+    if (!elem.value) return alert('Заповніть, будь ласка, всі поля форми!');
   }
 
   console.table(localData);
