@@ -24,7 +24,8 @@ function onFormSubmit(event) {
   event.preventDefault();
 
   for (const elem of event.target.elements) {
-    if (!elem.value) return alert('Заповніть, будь ласка, всі поля форми!');
+    if (!elem.value && elem.tagName !== 'BUTTON')
+      return alert('Заповніть, будь ласка, всі поля форми!');
   }
 
   console.table(localData);
