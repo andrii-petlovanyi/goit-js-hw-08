@@ -8,7 +8,7 @@ formRefs.addEventListener('submit', onFormSubmit);
 const localData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 if (Object.keys(localData).length) {
   for (const el of formRefs.elements) {
-    el.value = localData[el.name];
+    if (localData[el.name]) el.value = localData[el.name];
   }
 }
 
