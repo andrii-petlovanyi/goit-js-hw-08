@@ -5,15 +5,21 @@ const formRefs = document.querySelector('.feedback-form');
 formRefs.addEventListener('input', throttle(setCurrentData, 500));
 formRefs.addEventListener('submit', onFormSubmit);
 
+let formInputsRef = [];
+for (const el of formRefs.elements) {
+  if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA')
+    formInputsRef.push(el);
+}
+
 const localData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 if (Object.values(localData).length) {
-  for (const el of formRefs.elements) {
+  for (const el of formInputsRef) {
     if (localData[el.name]) el.value = localData[el.name];
   }
 }
 
 function setCurrentData(event) {
-  for (const elem of formRefs.elements) {
+  for (const elem of formInputsRef) {
     if (event.target === elem) localData[elem.name] = event.target.value.trim();
   }
 
@@ -23,9 +29,8 @@ function setCurrentData(event) {
 function onFormSubmit(event) {
   event.preventDefault();
 
-  for (const elem of event.target.elements) {
-    if (!elem.value && elem.tagName !== 'BUTTON')
-      return alert('Заповніть, будь ласка, всі поля форми!');
+  for (const elem of formInputsRef) {
+    if (!elem.value) return alert('Заповніть, будь ласка, всі поля форми!');
   }
 
   console.table(localData);
