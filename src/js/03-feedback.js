@@ -13,15 +13,15 @@ for (const el of formRefs.elements) {
 
 const localData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 if (Object.values(localData).length) {
-  for (const el of formInputsRef) {
-    if (localData[el.name]) el.value = localData[el.name];
+  for (const [name, value] of Object.entries(localData)) {
+    if (value) {
+      formRefs.elements[name].value = value;
+    }
   }
 }
 
 function setCurrentData(event) {
-  for (const elem of formInputsRef) {
-    if (event.target === elem) localData[elem.name] = event.target.value.trim();
-  }
+  localData[event.target.name] = event.target.value.trim();
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(localData));
 }
