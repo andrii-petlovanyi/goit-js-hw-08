@@ -6,7 +6,7 @@ formRefs.addEventListener('input', throttle(setCurrentData, 500));
 formRefs.addEventListener('submit', onFormSubmit);
 
 const localData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-if (Object.keys(localData).length) {
+if (Object.values(localData).length) {
   for (const el of formRefs.elements) {
     if (localData[el.name]) el.value = localData[el.name];
   }
