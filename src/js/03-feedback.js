@@ -24,10 +24,7 @@ function onFormSubmit(event) {
   event.preventDefault();
 
   for (const elem of event.currentTarget.elements) {
-    if (
-      !elem.value &&
-      (elem.tagName === 'INPUT' || elem.tagName === 'TEXTAREA')
-    )
+    if (elem.name && !elem.value)
       return alert('Заповніть, будь ласка, всі поля форми!');
   }
 
